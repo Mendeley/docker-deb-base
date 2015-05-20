@@ -1,7 +1,7 @@
-# docker-deb-base
+# docker-jar-app-base
 
-Production-style service images created by installing the deb package of that service.
+Production-style service images created by copying the fatjar package of that service.
 
-This more closely mirrors the setup we have today, where Jenkins compiles debs using Lax, and barebones production servers install the packaged Java services from the deb packages.
+This more closely tracks the setup we have today, where barebones production servers get a JVM installed and then obtain the fatjar to run as a service.
 
-This is in contrast to docker-maven-base, which can build a service image from scratch using merely its Git source.
+This is in contrast to [docker-maven-base](https://github.com/Mendeley/docker-maven-base), which can build a service image from scratch using merely its Git source.
