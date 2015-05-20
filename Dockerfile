@@ -1,18 +1,12 @@
-FROM java:8u45-jdk
+FROM mendeley/minimal-java:latest
 
 MAINTAINER Chris Kilding <chris.kilding@mendeley.com>
 
-# Create a place in the container to put the app
-RUN mkdir -p /usr/src/app
-
-# Everything we do from now on is in the context of this folder
-WORKDIR /usr/src/app
-
-# Add the output of lax build
-ONBUILD ADD debs/*.deb /usr/src/app/
-
-# Workaround - use our special settings.xml in the container when running mvn commands
-# Workaround - DO NOT run the integration tests as they will fail at image build stage
-ONBUILD RUN dpkg -i *.deb
+# Add the compiled output of the build
+# NOTE: the COPY command will create /usr/src/app if any or all of those directories
+# do not exist yet.
+ONBUILD COPY target/*-jar-with-dependencies.jar /usr/src/app/jar-with-dependencies.jar
 
 # The child app will define a CMD; we cannot predict this ahead of time.
+# But it might look something like
+# CMD ["java", "-jar", "/usr/src/app/jar-with-dependencies.jar", "some args..."]
